@@ -1,6 +1,6 @@
 var path = require('path')
 
-
+module.exports = [prodConfig]
 const prodConfig = {
   name: 'prod.config',
   entry: './frontend/index.js',
