@@ -5,6 +5,11 @@
   "repository": "https://github.com/Qulima/DreamTalk.git",
   "author": "Qulima <mr.nekit1@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "webpack -o ./dist",
+    "start": "webpack serve --config-name dev.config",
+    "build": "webpack --config-name prod.config"
+  },
   "devDependencies": {
     "@babel/core": "^7.14.2",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
