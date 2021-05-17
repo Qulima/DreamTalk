@@ -1,7 +1,6 @@
 var path = require('path')
 
-module.exports = [prodConfig]
-const prodConfig = {
+module.exports  = {
   name: 'prod.config',
   entry: './frontend/index.js',
   output: {
