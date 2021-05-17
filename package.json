@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "webpack -o ./dist",
     "start": "webpack serve --config-name dev.config",
-    "build": "webpack --config-name prod.config"
+    "build": "webpack --config ./webpack.prod.config.js"
   },
   "devDependencies": {
     "@babel/core": "^7.14.2",
