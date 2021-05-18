@@ -1,16 +1,25 @@
 var path = require('path')
 
 module.exports = {
-  name: 'prod.config',
+  name: "dev.config",
   entry: './frontend/index.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'target/classes/static')
+    path: path.resolve(__dirname, 'dist'),
   },
-  mode: 'production',
+  mode: 'development',
   devtool: 'source-map',
+  devServer: {
+    contentBase: './dist',
+    watchContentBase: true,
+    compress: true,
+    port: 8000,
+    allowedHosts: [
+      'localhost:8080'
+    ]
+  },
   resolve: {
-    extensions: ['.js', '.jsx', '.module.css', '.html', '.png']
+    extensions: ['.js', '.jsx', '.css', '.html', '.png']
   },
   module: {
     rules: [
