@@ -3,7 +3,7 @@ import axios from "axios";
 
 const MainPage = () => {
   const getTask = () => {
-    axios.get('http://localhost:8080/api/v1/task', {headers: {Authorization: 'assaas'}}).then(
+    axios.get('http://localhost:8080/api/v1/task').then(
       () => console.log("Ok")
     )
   }
@@ -17,6 +17,10 @@ const MainPage = () => {
           <p>
             <label htmlFor="username">Username</label>
             <input type="text" id="username" name="username" className="form-control" placeholder="Username" required/>
+          </p>
+          <p>
+            <label htmlFor="role">Role</label>
+            <input type="text" id="role" name="role" className="form-control" placeholder="Role" required/>
           </p>
           <p>
             <label htmlFor="password">Password</label>
