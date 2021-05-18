@@ -1,10 +1,9 @@
 package com.dreamtalk.security.jwt;
 
 import com.dreamtalk.domain.user.Role;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -33,7 +32,7 @@ public class JwtTokenProvider {
 
     public String createToken(String email, Role role) {
         Claims claims = Jwts.claims().setSubject(email);
-        claims.put("role", role.name());
+        claims.put("role", role);
         Date now = new Date();
         Date expiredTime = new Date(now.getTime() + validity);
         return Jwts.builder()
@@ -50,5 +49,28 @@ public class JwtTokenProvider {
 
     public String getHeader() {
         return header;
+    }
+
+    public String getUsername(String token) {
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token)
+                .getBody().getSubject();
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            return !claimsJws.getBody().getExpiration().before(new Date());
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new JwtAuthenticationException("JWT token is expired or invalid", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    public Role getRole(String token) {
+        try {
+            return (Role) Jwts.parser().setSigningKey(secret).parseClaimsJws(token)
+                    .getBody().get("role");
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new JwtAuthenticationException("JWT token is expired or invalid", HttpStatus.FORBIDDEN);
+        }
     }
 }

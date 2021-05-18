@@ -1,7 +1,8 @@
-package com.dreamtalk.security;
+package com.dreamtalk.security.userdetails;
 
 import com.dreamtalk.domain.user.User;
 import com.dreamtalk.repositories.UserRepository;
+import com.dreamtalk.security.userdetails.SecurityUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

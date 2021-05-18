@@ -1,7 +1,7 @@
 package com.dreamtalk.security.filter;
 
 import com.dreamtalk.dto.AuthenticationDTO;
-import com.dreamtalk.security.SecurityUser;
+import com.dreamtalk.security.userdetails.SecurityUser;
 import com.dreamtalk.security.jwt.JwtTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;

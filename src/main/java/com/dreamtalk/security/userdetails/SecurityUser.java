@@ -1,4 +1,4 @@
-package com.dreamtalk.security;
+package com.dreamtalk.security.userdetails;
 
 import com.dreamtalk.domain.Status;
 import com.dreamtalk.domain.user.Role;
