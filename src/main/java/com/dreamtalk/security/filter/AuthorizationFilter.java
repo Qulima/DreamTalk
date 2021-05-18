@@ -2,6 +2,7 @@ package com.dreamtalk.security.filter;
 
 import com.dreamtalk.security.jwt.JwtAuthenticationException;
 import com.dreamtalk.security.jwt.JwtTokenProvider;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -54,8 +55,8 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                 }
             }
         } catch (JwtAuthenticationException e) {
-            throw new JwtAuthenticationException("JWT token is expired or invalid");
+            throw new JwtAuthenticationException("JWT token is expired or invalid", HttpStatus.FORBIDDEN);
         }
-        throw new JwtAuthenticationException("JWT token is expired or invalid");
+        throw new JwtAuthenticationException("JWT token is expired or invalid", HttpStatus.FORBIDDEN);
     }
 }

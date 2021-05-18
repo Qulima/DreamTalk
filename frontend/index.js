@@ -1,7 +1,11 @@
 import React from "react";
 import ReactDom from 'react-dom'
+import MainPage from "./MainPage";
 
 ReactDom.render(
-  <div>Hello, it's a react-render</div>,
+  <div>
+    <div>HI</div>
+    <MainPage/>
+  </div>,
   document.getElementById('app')
 )
