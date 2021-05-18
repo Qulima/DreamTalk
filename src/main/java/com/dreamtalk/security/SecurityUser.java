@@ -1,7 +1,7 @@
 package com.dreamtalk.security;
 
 import com.dreamtalk.domain.Status;
-import com.dreamtalk.domain.user.User;
+import com.dreamtalk.domain.user.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,12 +15,30 @@ public class SecurityUser implements UserDetails {
     private final String password;
     private final List<SimpleGrantedAuthority> authorities;
     private final Status status;
+    private final Role role;
+    private final boolean isEnabled;
+    private final boolean isAccountNonExpired;
+    private final boolean isCredentialsNonExpired;
+    private final boolean isAccountNonLocked;
 
-    public SecurityUser(String username, String password, List<SimpleGrantedAuthority> authorities, Status status) {
+    public SecurityUser(String username,
+                        String password,
+                        List<SimpleGrantedAuthority> authorities,
+                        Status status,
+                        Role role) {
         this.username = username;
         this.password = password;
+        this.isEnabled = isActive(status);
+        this.isAccountNonExpired = isActive(status);
+        this.isAccountNonLocked = isActive(status);
+        this.isCredentialsNonExpired = isActive(status);
         this.authorities = authorities;
         this.status = status;
+        this.role = role;
+    }
+
+    public Role getRole() {
+        return this.role;
     }
 
     @Override
@@ -40,37 +58,25 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return isActive(this.status);
+        return isAccountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return isActive(this.status);
+        return isAccountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return isActive(this.status);
+        return isCredentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return isActive(this.status);
+        return isEnabled;
     }
 
-    public static UserDetails fromUser(User user) {
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                isActive(user.getStatus()),
-                isActive(user.getStatus()),
-                isActive(user.getStatus()),
-                isActive(user.getStatus()),
-                user.getUserRole().getAuthorities()
-                );
-    }
-
-    private static boolean isActive(Status status) {
+    private boolean isActive(Status status) {
         return "ACTIVE".equals(status.name());
     }
 }

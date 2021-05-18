@@ -25,6 +25,12 @@ public class SecurityUserService implements UserDetailsService {
             log.warn(String.format("User with email %s not found", email));
             throw new UsernameNotFoundException(String.format("User with email %s not found", email));
         });
-        return SecurityUser.fromUser(user);
+        return new SecurityUser(
+                user.getUsername(),
+                user.getPassword(),
+                user.getUserRole().getAuthorities(),
+                user.getStatus(),
+                user.getUserRole()
+        );
     }
 }
