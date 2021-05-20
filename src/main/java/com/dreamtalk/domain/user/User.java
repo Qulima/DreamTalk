@@ -1,9 +1,11 @@
 package com.dreamtalk.domain.user;
 
 import com.dreamtalk.domain.BaseEntity;
+import com.dreamtalk.domain.refresh.RefreshToken;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -28,4 +30,7 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role")
     private Role userRole;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private List<RefreshToken> refreshTokens;
 }

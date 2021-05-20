@@ -2,8 +2,13 @@ package com.dreamtalk.security.jwt;
 
 import com.dreamtalk.domain.user.Role;
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +28,12 @@ public class JwtTokenProvider {
 
     @Value("${jwt.expired}")
     private Long validity;
+
+    private final UserDetailsService service;
+
+    public JwtTokenProvider(@Qualifier("userDetailsServiceImpl") UserDetailsService service) {
+        this.service = service;
+    }
 
     @PostConstruct
     private void init() {
@@ -54,6 +65,11 @@ public class JwtTokenProvider {
     public String getUsername(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token)
                 .getBody().getSubject();
+    }
+
+    public Authentication getAuthentication(String token) {
+        UserDetails userDetails = this.service.loadUserByUsername(getUsername(token));
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     public boolean validateToken(String token) {

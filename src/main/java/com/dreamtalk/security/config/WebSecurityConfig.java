@@ -1,7 +1,5 @@
 package com.dreamtalk.security.config;
 
-import com.dreamtalk.security.filter.AuthenticationFilter;
-import com.dreamtalk.security.filter.AuthorizationFilter;
 import com.dreamtalk.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,11 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/bundle.js", "/favicon.ico", "/login").permitAll()
+                .antMatchers("/", "/bundle.js", "/favicon.ico", "/api/v1/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new AuthorizationFilter(authenticationManager(), tokenProvider))
-//                .addFilter(new AuthenticationFilter(authenticationManager(), tokenProvider))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
@@ -49,7 +45,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Bean
