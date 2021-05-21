@@ -1,5 +1,12 @@
 import {Breadcrumb, Layout, Menu} from "antd";
-import {MessageOutlined, TeamOutlined, UserOutlined} from '@ant-design/icons'
+import {
+  TeamOutlined,
+  UserOutlined,
+  ContainerOutlined,
+  CustomerServiceOutlined,
+  PictureOutlined,
+  CommentOutlined
+} from '@ant-design/icons'
 import s from './MainPage.module.css'
 import 'antd/dist/antd.css'
 import React from "react";
@@ -7,6 +14,7 @@ import {Route} from "react-router";
 import {NavLink} from "react-router-dom";
 import LoginPage from "../components/Login/LoginPage";
 import LogoutPage from "../components/Login/LogoutPage";
+import {MessageOutlined} from "@material-ui/icons";
 
 
 const { SubMenu } = Menu;
@@ -39,8 +47,11 @@ function MainPage() {
               style={{ height: '100%' }}
             >
               <Menu.Item key="sub1" icon={<UserOutlined />} title="Profile page">Profile page</Menu.Item>
-              <Menu.Item key="sub2" icon={<TeamOutlined />} title="Friends">Friends</Menu.Item>
-              <Menu.Item key="sub3" icon={<MessageOutlined />} title="Messenger">Messenger</Menu.Item>
+              <Menu.Item key="sub2" icon={<ContainerOutlined />} title="Feed">Feed</Menu.Item>
+              <Menu.Item key="sub3" icon={<CommentOutlined />} title="Messenger">Messenger</Menu.Item>
+              <Menu.Item key="sub4" icon={<TeamOutlined />} title="Friends">Friends</Menu.Item>
+              <Menu.Item key="sub5" icon={<PictureOutlined />} title="Photos">Photos</Menu.Item>
+              <Menu.Item key="sub6" icon={<CustomerServiceOutlined />} title="Music">Music</Menu.Item>
             </Menu>
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: '75vh', overflow: 'auto' }}>

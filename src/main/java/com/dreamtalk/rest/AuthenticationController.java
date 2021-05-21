@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -67,6 +66,8 @@ public class AuthenticationController {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("Refresh")) {
+                    RefreshToken refreshToken = refreshTokenProvider.retrieveToken(cookie.getValue());
+                    refreshTokenProvider.deleteToken(refreshToken);
                     cookie.setMaxAge(0);
                     response.addCookie(cookie);
                 }

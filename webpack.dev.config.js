@@ -3,6 +3,9 @@ var path = require('path')
 module.exports = {
   name: "dev.config",
   entry: './frontend/index.js',
+  watchOptions: {
+    ignored: /node_modules/
+  },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
@@ -12,6 +15,7 @@ module.exports = {
   devServer: {
     contentBase: './dist',
     watchContentBase: true,
+
     compress: true,
     port: 8000,
     allowedHosts: [
@@ -25,7 +29,7 @@ module.exports = {
     rules: [
       {
         test: path.join(__dirname, '.'),
-        exclude: /(node_modles)/,
+        exclude: /(node_modules)/,
         use: [{
           loader: 'babel-loader',
           options: {

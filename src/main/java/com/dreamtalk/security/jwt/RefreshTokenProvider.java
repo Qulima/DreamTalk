@@ -67,11 +67,11 @@ public class RefreshTokenProvider {
                 .findFirst();
     }
 
-    private void saveToken(RefreshToken token) {
-        refreshTokenRepository.save(token);
+    public void deleteToken(RefreshToken token) {
+        refreshTokenRepository.delete(token);
     }
 
-    private void deleteToken(RefreshToken token) {
-        refreshTokenRepository.delete(token);
+    private void saveToken(RefreshToken token) {
+        refreshTokenRepository.save(token);
     }
 }
