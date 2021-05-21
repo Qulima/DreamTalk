@@ -22,9 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -48,19 +46,15 @@ public class AuthenticationController {
                                                            HttpServletResponse response) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestDTO.getEmail(), requestDTO.getPassword()));
+
             User user = userRepository.findByEmail(requestDTO.getEmail()).orElseThrow(()
                     -> new UsernameNotFoundException(String.format("User with email %s not found", requestDTO.getEmail())));
 
-
-            deleteRefresh(user, request);
+            refreshTokenProvider.deleteRefresh(request);
+            RefreshToken refreshToken = refreshTokenProvider.createToken(user);
+            refreshTokenProvider.AddTokenToCookie(refreshToken, response);
 
             String jwtToken = jwtTokenProvider.createToken(user.getUsername(), user.getUserRole());
-
-            RefreshToken refreshToken = refreshTokenProvider.createToken(user);
-            Cookie refresh = new Cookie("Refresh", refreshToken.getRefreshToken().toString());
-            refresh.setHttpOnly(true);
-            response.addCookie(refresh);
-
             return ResponseEntity.ok(new AuthenticationResponseDTO(user.getId(), jwtToken));
         } catch (AuthenticationException e) {
             return new ResponseEntity<>(new AuthenticationResponseDTO(-1L, null), HttpStatus.FORBIDDEN);
@@ -78,9 +72,6 @@ public class AuthenticationController {
                 }
             }
         }
-//        Cookie cookie = new Cookie("refresh", "");
-//        cookie.setMaxAge(0);
-//        response.addCookie(cookie);
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
         securityContextLogoutHandler.logout(request, response, null);
     }
@@ -92,28 +83,12 @@ public class AuthenticationController {
         User user = userRepository.findByEmail(requestDTO.getEmail()).orElseThrow(() ->
                 new UsernameNotFoundException("User not found"));
 
-        deleteRefresh(user, request);
-
+        refreshTokenProvider.deleteRefresh(request);
         RefreshToken refreshToken = refreshTokenProvider.createToken(user);
-        Cookie refresh = new Cookie("Refresh", refreshToken.getRefreshToken().toString());
-        refresh.setHttpOnly(true);
-        response.addCookie(refresh);
+        refreshTokenProvider.AddTokenToCookie(refreshToken, response);
 
         return ResponseEntity.ok(jwtTokenProvider.createToken(user.getEmail(), user.getUserRole()));
     }
 
-    private void deleteRefresh(User user, HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            Optional<Cookie> requestRefresh = refreshTokenProvider.resolveRefresh(cookies);
-            if (requestRefresh.isPresent()) {
-                String refreshToken = requestRefresh.get().getValue();
-                RefreshToken rToken = user.getRefreshTokens()
-                        .stream()
-                        .filter(token -> token.getRefreshToken().toString().equals(refreshToken))
-                        .findFirst().get();
-                refreshTokenProvider.deleteToken(rToken);
-            }
-        }
-    }
+
 }
