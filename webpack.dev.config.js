@@ -6,6 +6,7 @@ module.exports = {
   watchOptions: {
     ignored: /node_modules/
   },
+  watch: true,
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),

@@ -13,3 +13,5 @@ ReactDom.render(
   </BrowserRouter>,
   document.getElementById('app')
 )
+
+window.store = store
