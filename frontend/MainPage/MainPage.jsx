@@ -23,6 +23,7 @@ import Profile from "../components/Profile/Profile";
 import SubMenu from "antd/es/menu/SubMenu";
 import ava from '../assets/dream_talk_logo.png'
 import Search from "antd/es/input/Search";
+import avatar from '../assets/avatar.jpg'
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Panel } = Collapse
@@ -45,11 +46,13 @@ function MainPage() {
         <Menu theme="light" mode="horizontal" defaultSelectedKeys={['2']} style={{float: 'right'}}>
           <SubMenu
             title={<strong style={{padding: 10}}>Nick</strong>}
-            icon={<Avatar
-              src={'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'}
-              size={"large"}
-              shape={"circle"}
-              gap={10}
+            icon={<img src={avatar}
+                       alt={'ava'}
+                       style={{
+                         width:50,
+                         height:50,
+                         borderRadius:25
+                       }}
           />}>
             <Menu.Item key="3">
               <p>Settings</p>
@@ -97,7 +100,7 @@ function MainPage() {
               </Menu.Item>
             </Menu>
           </Sider>
-          <Content style={{ padding: '0 24px', minHeight: '75vh', overflow: 'auto' }}>
+          <Content style={{ padding: '0 24px', overflow: 'auto' }}>
             <Switch>
               <Route render={() => <Feed/>} path={'/feed'}/>
               <Route render={() => <Friends/>} path={'/friends'}/>

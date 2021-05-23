@@ -1,6 +1,8 @@
 import React from "react";
 import {Button, Card, Col, Menu, Row, Space} from "antd";
 import {CalendarOutlined, HistoryOutlined} from "@ant-design/icons";
+import ava from '../../assets/avatar.jpg'
+import PhotoUploader from "../../utils/PhotoUploader";
 
 const Profile = () => {
 
@@ -9,7 +11,7 @@ const Profile = () => {
     <Space direction={'horizontal'} align={'start'} size={15}>
       <Space direction={'vertical'} size={15}>
         <Card style={{ borderRadius: 5 }}>
-          <img src={'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'} alt={'avatar'} style={{width: 250, borderRadius: 5}} align={'center'}/>
+          <img src={ava} alt={'avatar'} style={{width: 250, borderRadius: 5}} align={'center'}/>
           {/*<Menu>*/}
           {/*<Menu.Item key={1}>Memories</Menu.Item>*/}
           {/*<Menu.Item key={2}>Story archive</Menu.Item>*/}
@@ -43,7 +45,7 @@ const Profile = () => {
           <hr/>
           <Row style={{marginTop:5}}>
             <Col span={8}>Birth:</Col>
-            <Col span={16}>08.07.1999</Col>
+            <Col span={16}>July 8, 1999</Col>
           </Row>
           <Row style={{marginTop:5}}>
             <Col span={8}>City</Col>
@@ -81,6 +83,7 @@ const Profile = () => {
           <p>
             My photos {1}
           </p>
+          <PhotoUploader/>
         </Card>
       </Space>
     </Space>
